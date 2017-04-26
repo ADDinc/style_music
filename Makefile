@@ -1,8 +1,8 @@
 #compile
 CC = g++
-CFLAG = -Wall -Werror -pipe -O2 -fPIC
-ESS_FLAG = -I thirdparty/essentia/ -I thirdparty/essentia/scheduler/ -I thirdparty/essentia/streaming/  -I thirdparty/essentia/utils -D__STDC_CONSTANT_MACROS
-ESS_END_FLAG = -lfftw3 -lyaml -lavcodec -lavformat -lavutil -lsamplerate -ltag -lfftw3f
+CFLAG = -Wall -Werror -pipe -O2 -fPIC -D__STDC_CONSTANT_MACROS -std=c++11
+ESS_LIB_PATH = ./bin
+ESS_LIB_FLAG = -L $(ESS_LIB_PATH)/lib -I $(ESS_LIB_PATH)/include -lessentia -Wl,-rpath=$(ESS_LIB_PATH)/lib
 #folder define
 SRC = src
 SRCTEST = test
