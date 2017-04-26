@@ -25,9 +25,9 @@ ESS_LINK = https://github.com/MTG/essentia/archive/v2.1_beta3.zip
 rm       = rm -f
 
 all: build
-	
-build: lib/libessentia.so
-	g++ -pipe -Wall -O2 -fPIC  -D__STDC_CONSTANT_MACROS src/main.cpp -o standard_mfcc -L ./lib -I ./include -lessentia -Wl,-rpath=./lib
+
+build: $(ESS_LIB_PATH)/lib/libessentia.so
+	$(CC) $(CFLAG) $(SRC)/main.cpp $(SRC)/essentaisAlgoritms.cpp -o  $(BIN)/standard_mfcc $(ESS_LIB_FLAG)
 
 lib/libessentia.so: install_essentia
 
