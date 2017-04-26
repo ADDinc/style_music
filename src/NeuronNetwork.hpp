@@ -7,6 +7,7 @@ class NeuronNetwork
 {
 private:
     std::vector<Neuron> neurons;
+    std::string filename;
 public:
     NeuronNetwork()
     {
@@ -20,4 +21,4 @@ public:
 };
 
 
-#endif //NEURONNETWORK_HPP
+#endif //TEST_NEURONNETWORK_HPP

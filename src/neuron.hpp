@@ -2,8 +2,8 @@
 #define NEURON_HPP
 
 //#pragma once
-#include <vector>
-#include <fstream>
+#include "common.hpp"
+using namespace std;
 
 typedef struct {
     double max;
@@ -14,42 +14,19 @@ typedef struct {
 
 class Neuron
 {
-    using namespace std;
 private:
-    InputData _data[];
     string style;
-    double weight;
+    InputData *_data;
+    double  weight[][4];
+    double power;
     double threshold;
+    uint32_t countLearn;
 public:
-    Neuron(const string& style) : style(style)
-    {
-        _data = new InputData[20];
-        loadData();
-    }
-
-    bool saveData()
-    {
-        ifstream File(style, ios_base::in);
-        if (File.is_open())
-        {
-            File.close();
-        }
-    }
-
-    void loadData()
-    {
-        ofstream File(style, ios_base::out);
-        if (File.is_open())
-        {
-            File.close();
-        }
-    }
-
-    ~Neuron()
-    {
-        saveData();
-        delete[] _data;
-    }
+    Neuron(const string& style);
+    void loadData();
+    void saveData();
+    const string& getStyleName() const;
+    ~Neuron();
 };
 
 #endif //NEURON_HPP
