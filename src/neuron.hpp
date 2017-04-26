@@ -52,20 +52,4 @@ public:
     }
 };
 
-class NeuronNetwork
-{
-private:
-    std::vector<Neuron> neurons;
-public:
-    NeuronNetwork()
-    {
-
-    }
-
-    ~NeuronNetwork()
-    {
-
-    }
-};
-
 #endif //NEURON_HPP
