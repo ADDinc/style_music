@@ -1,6 +1,6 @@
 #include "filesystem.hpp"
 
-void find_and_replace(string& source, string const& find, string const& replace)
+void replace(string &source, string const &find, string const &replace)
 {
     for(string::size_type i = 0; (i = source.find(find, i)) != string::npos;)
     {
@@ -9,26 +9,39 @@ void find_and_replace(string& source, string const& find, string const& replace)
     }
 }
 
-string getRegexMask(const string& strMask)
+void split(string const& source, string const& delimiter, vector<string>& out)
+{
+    string::size_type last_pos = 0, i = 0;
+    while((i = source.find(delimiter, i)) != string::npos)
+    {
+        out.push_back(source.substr(last_pos, i - last_pos)), last_pos = ++i;
+    }
+    out.push_back(source.substr(last_pos, source.length() - last_pos));
+}
+
+void getRegexMask(string&& strMask, vector<string>& regexMasks)
 {
     if (!strMask.empty())
     {
-        string outMask = strMask;
-        find_and_replace(outMask, ".", "\\.");
-        find_and_replace(outMask, "?", ".?");
-        find_and_replace(outMask, "*", ".*");
-        return outMask;
+        replace(strMask, ".", "\\.");
+        replace(strMask, "?", ".?");
+        replace(strMask, "*", ".*");
+        split(strMask, "|", regexMasks);
     }
-    return ".*";
 }
 
-inline bool checkFileMask(const string& regex_mask, const string& fileName)
+bool checkFileMask(const vector<string>& regex_mask, const string& fileName)
 {
-    regex reg(regex_mask);
-    return regex_search(fileName.cbegin(), fileName.cend(), reg);
+    for (const string &mask : regex_mask)
+    {
+        regex reg(mask);
+        if (regex_search(fileName.cbegin(), fileName.cend(), reg))
+            return true;
+    }
+    return false;
 }
 
-void getFileList(const string& directory, vector<string>& fileList, const string& regex_mask, bool bSearchSubDir)
+void getFileList(const string& directory, vector<string>& fileList, const vector<string>& regex_mask, bool bSearchSubDir)
 {
     DIR *WorkDir = opendir(directory.c_str());
     if (WorkDir == nullptr)
@@ -50,7 +63,7 @@ void getFileList(const string& directory, vector<string>& fileList, const string
         else
         {
             if (checkFileMask(regex_mask, file_info->d_name))
-                fileList.push_back(string(file_info->d_name));
+                fileList.push_back(directory + file_info->d_name);
         }
     }
     closedir(WorkDir);
