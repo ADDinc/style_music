@@ -19,8 +19,9 @@ void split(string const& source, string const& delimiter, vector<string>& out)
     out.push_back(source.substr(last_pos, source.length() - last_pos));
 }
 
-void getRegexMask(string&& strMask, vector<string>& regexMasks)
+vector<string> getRegexMask(string&& strMask)
 {
+    vector<string> regexMasks;
     if (!strMask.empty())
     {
         replace(strMask, ".", "\\.");
@@ -28,6 +29,7 @@ void getRegexMask(string&& strMask, vector<string>& regexMasks)
         replace(strMask, "*", ".*");
         split(strMask, "|", regexMasks);
     }
+    return regexMasks;
 }
 
 bool checkFileMask(const vector<string>& regex_mask, const string& fileName)

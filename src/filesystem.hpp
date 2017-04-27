@@ -9,7 +9,7 @@ using namespace std;
 
 void replace(string &source, string const &find, string const &replace);
 void split(string const& source, string const& delimiter, vector<string>& out);
-void getRegexMask(string&& strMask, vector<string>& regexMasks);
+vector<string> getRegexMask(string&& strMask);
 bool checkFileMask(const vector<string>& regex_mask, const string& fileName);
 void getFileList(const string& directory, vector<string>& fileList, const vector<string>& regex_mask, bool bSearchSubDir = false);
 
