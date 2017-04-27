@@ -29,7 +29,7 @@ all: build
 build: $(ESS_LIB_PATH)/lib/libessentia.so
 	$(CC) $(CFLAG) $(SRC)/main.cpp $(SRC)/essentaisAlgoritms.cpp -o  $(BIN)/standard_mfcc $(ESS_LIB_FLAG)
 
-lib/libessentia.so: install_essentia
+$(ESS_LIB_PATH)/lib/libessentia.so: install_essentia
 
 .PHONE: install_essentia
 install_essentia: thirdparty/essentia/waf

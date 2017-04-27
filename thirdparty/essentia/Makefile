@@ -1,4 +1,4 @@
 all:	
-	./waf configure --mode=release --prefix=../..
+	./waf configure --mode=release --prefix=../../bin
 	./waf
 	./waf install
