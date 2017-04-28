@@ -5,9 +5,11 @@
 #include "common.hpp"
 using namespace std;
 
+#include <iostream>
 typedef struct {
     double max;
     double mean;
+    double median;
     double min;
     double var;
 } InputData;
@@ -17,14 +19,14 @@ class Neuron
 private:
     string style;
     InputData *_data;
-    double  weight[][4];
+    InputData *weight;
     double power;
     double threshold;
     uint32_t countLearn;
 public:
     Neuron(const string& style);
-    void loadData();
-    void saveData();
+    void loadData(ifstream&);
+    void saveData(ofstream&);
     const string& getStyleName() const;
     ~Neuron();
 };

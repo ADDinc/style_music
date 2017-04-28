@@ -8,17 +8,15 @@ class NeuronNetwork
 private:
     std::vector<Neuron> neurons;
     std::string filename;
+
+    void loadNeurons();
+    void saveNeurons();
 public:
-    NeuronNetwork()
-    {
 
-    }
-
-    ~NeuronNetwork()
-    {
-
-    }
+    NeuronNetwork(const string& filename);
+    ~NeuronNetwork();
+    void learning(const string& style);
 };
 
 
-#endif //TEST_NEURONNETWORK_HPP
+#endif //NEURONNETWORK_HPP

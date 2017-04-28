@@ -3,25 +3,24 @@
 Neuron::Neuron(const string& style) : style(style)
 {
     _data = new InputData[20];
-    loadData();
+    weight = new InputData[20];
 }
 
-void Neuron::loadData()
+void Neuron::loadData(ifstream& in)
 {
-    ifstream File(style, ios_base::in);
-    if (File.is_open())
-    {
-        File.close();
-    }
+    in.read(reinterpret_cast<char*>(_data), sizeof(InputData[20]));
+    in.read(reinterpret_cast<char*>(weight), sizeof(InputData[20]));
+    in.read(reinterpret_cast<char*>(&countLearn), sizeof(countLearn));
 }
 
-void Neuron::saveData()
+void Neuron::saveData(ofstream& out)
 {
-    ofstream File(style, ios_base::out);
-    if (File.is_open())
-    {
-        File.close();
-    }
+    uint32_t len = style.length();
+    out.write(reinterpret_cast<char*>(&len), sizeof(len));
+    out.write(style.c_str(), len);
+    out.write(reinterpret_cast<char*>(_data), sizeof(InputData[20]));
+    out.write(reinterpret_cast<char*>(weight), sizeof(InputData[20]));
+    out.write(reinterpret_cast<char*>(&countLearn), sizeof(countLearn));
 }
 
 const string& Neuron::getStyleName() const
@@ -31,6 +30,6 @@ const string& Neuron::getStyleName() const
 
 Neuron::~Neuron()
 {
-    saveData();
     delete[] _data;
+    delete[] weight;
 }
