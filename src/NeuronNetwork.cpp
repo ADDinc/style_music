@@ -41,10 +41,12 @@ void NeuronNetwork::saveNeurons()
     }
 }
 
-NeuronNetwork::NeuronNetwork(const string& filename)
+NeuronNetwork::NeuronNetwork(const string& filename, bool load)
 {
     this->filename = filename;
-    loadNeurons();
+    if (load) {
+        loadNeurons();
+    }
 }
 
 NeuronNetwork::~NeuronNetwork()

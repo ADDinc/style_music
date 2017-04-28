@@ -13,7 +13,7 @@ private:
     void saveNeurons();
 public:
 
-    NeuronNetwork(const string& filename);
+    NeuronNetwork(const string& filename, bool load);
     ~NeuronNetwork();
     void learning(const string& style);
 };
