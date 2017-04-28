@@ -2,6 +2,7 @@
 #define NEURON_HPP
 
 //#pragma once
+#include "essentaisAlgoritms.hpp"
 #include "common.hpp"
 using namespace std;
 
@@ -27,6 +28,8 @@ public:
     Neuron(const string& style);
     void loadData(ifstream&);
     void saveData(ofstream&);
+    void setupData(MapMono map);
+    void print(void);
     const string& getStyleName() const;
     ~Neuron();
 };

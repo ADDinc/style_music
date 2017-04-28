@@ -6,33 +6,39 @@
 #include <essentia/essentiamath.h>
 #include <essentia/pool.h>
 #include "essentaisAlgoritms.hpp"
+#include "filesystem.hpp"
+#include "NeuronNetwork.hpp"
 
 using namespace std;
 using namespace essentia;
 using namespace essentia::standard;
 
 int main(int argc, char* argv[]) {
-
-    if (argc != 3) {
-        cout << "ERROR: incorrect number of arguments." << endl;
-        cout << "Usage: " << argv[0] << " audio_input yaml_output" << endl;
-        exit(1);
-    }
-
-    string audioFilename = argv[1];
-    string outputFilename = argv[2];
-
     essentia::init();
 
-    Pool poolTags = getPoolMetadataReader(audioFilename);
-    MapTags v2 = getMapMetadataReader(poolTags);
-    cout << endl << v2 << endl;
+    vector<string> mask = getRegexMask("*.flac|*.mp3|*.m4a");
+    vector<string> files;
 
-    Pool pool = getPoolMonoLoader(audioFilename);
-    MapMono v = getMapMonoLoader(pool);
-    cout << endl << v << endl;
+    getFileList(argv[1], files, mask, true);
+    Pool poolTags;
+    MapTags v2;
+    Pool pool;
+    MapMono v;
+    string style = argv[2];
+    NeuronNetwork neuNtw("NN.db", false); // ничего не загружается создается чистая
+    //NeuronNetwork neuNtw("NN.db", true); // загрузка
+    Neuron neu(style);
 
-    YamlOutputPool(outputFilename, pool);
+    for(auto f : files){
+        v2 = getMapMetadataReader(getPoolMetadataReader(f));
+        v = getMapMonoLoader(getPoolMonoLoader(f));
+        cout << v2["title"] << "::" << v << endl;
+
+        neu.setupData(v);
+        neu.print();
+    }
+//    neuNtw.neurons[0].print();
+//    neuNtw.neurons.push_back(neu);
 
     essentia::shutdown();
 
