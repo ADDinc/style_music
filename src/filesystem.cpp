@@ -43,6 +43,19 @@ bool checkFileMask(const vector<string>& regex_mask, const string& fileName)
     return false;
 }
 
+bool directoryExist(const string& directory)
+{
+    DIR *dir = opendir(directory.c_str());
+    if (dir == nullptr)
+    {
+        if (errno == ENOENT)
+            return false;
+    }
+    else
+        closedir(dir);
+    return true;
+}
+
 void getFileList(const string& directory, vector<string>& fileList, const vector<string>& regex_mask, bool bSearchSubDir)
 {
     DIR *WorkDir = opendir(directory.c_str());
