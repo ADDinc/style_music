@@ -4,6 +4,10 @@
 #include <stdexcept>
 #include <cstring>
 #include <iostream>
+#include <essentia/algorithmfactory.h>
+#include <essentia/essentiamath.h>
+#include <essentia/pool.h>
+#include <map>
 
 inline void exceptionPrint(std::exception &excep, const std::string& from = "")
 {

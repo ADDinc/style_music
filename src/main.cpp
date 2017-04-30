@@ -1,11 +1,3 @@
-#include <iostream>
-#include <fstream>
-#include <map>
-#include <vector>
-#include <essentia/algorithmfactory.h>
-#include <essentia/essentiamath.h>
-#include <essentia/pool.h>
-#include "essentaisAlgoritms.hpp"
 #include "filesystem.hpp"
 #include "NeuronNetwork.hpp"
 
@@ -15,36 +7,43 @@ using namespace essentia::standard;
 
 int main(int argc, char* argv[]) {
     essentia::init();
-
-    vector<string> mask = getRegexMask("*.flac|*.mp3|*.m4a");
     vector<string> files;
-
-    getFileList(argv[1], files, mask, true);
+    
+    try
+    {
+        vector<string> mask = getRegexMask("*.flac|*.mp3|*.m4a");
+        getFileList(argv[1], files, mask, true);
+    }
+    catch(exception &ex)
+    {
+        exceptionPrint(ex, "main (get file list)");
+    }
     Pool poolTags;
     MapTags v2;
     Pool pool;
     MapMono v;
     string style = argv[2];
-    NeuronNetwork neuNtw("NN.db", false); // ничего не загружается создается чистая
-    //NeuronNetwork neuNtw("NN.db", true); // загрузка
-    
+    std::transform(style.cbegin(), style.cend(), style.begin(), ::tolower);    
+
     try
     {
+        //NeuronNetwork neuNtw("NN.db", false); // ничего не загружается создается чистая
+        NeuronNetwork neuNtw("./lol/NN.db", true); // загрузка
         for(auto f : files)
         {
-            Neuron neu(style);
+            //Neuron neu(style);
             v2 = getMapMetadataReader(getPoolMetadataReader(f));
             v = getMapMonoLoader(getPoolMonoLoader(f));
-            cout << v2["title"] << "::" << v << endl;
+            //cout << v2["title"] << "::" << v << endl;
 
-            neu.setupData(v);
-            neu.print();
-            neuNtw.neurons.push_back(neu);
+            //neu.setupData(v);
+            //neu.print();
+            neuNtw.learning(style, v);
         }
     }
     catch(exception &ex)
     {
-        exceptionPrint(ex);
+        exceptionPrint(ex, "main (learning)");
     }
 
     essentia::shutdown();

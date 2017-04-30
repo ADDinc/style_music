@@ -45,15 +45,28 @@ bool checkFileMask(const vector<string>& regex_mask, const string& fileName)
 
 bool directoryExist(const string& directory)
 {
-    DIR *dir = opendir(directory.c_str());
-    if (dir == nullptr)
+    if (!directory.empty())
     {
-        if (errno == ENOENT)
-            return false;
+        DIR *dir = opendir(directory.c_str());
+        if (dir == nullptr)
+        {
+            if (errno == ENOENT)
+                return false;
+        }
+        else
+            closedir(dir);
     }
-    else
-        closedir(dir);
     return true;
+}
+
+bool fileExist(const string& filename)
+{
+    return (access(filename.c_str(), 0) != -1);
+}
+
+bool createDirectory(const string& directory)
+{
+    return (mkdir(directory.c_str(), 0733) == 0);
 }
 
 void getFileList(const string& directory, vector<string>& fileList, const vector<string>& regex_mask, bool bSearchSubDir)

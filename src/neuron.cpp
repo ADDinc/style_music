@@ -13,7 +13,6 @@ Neuron::Neuron(const Neuron& copy) : style(copy.style), threshold(copy.threshold
     weight = new InputData[13];
     std::memcpy(_data, copy._data, sizeof(InputData[13]));
     std::memcpy(weight, copy.weight, sizeof(InputData[13]));
-    countLearn = 0;
 }
 
 Neuron::Neuron(Neuron&& move) : style(move.style), _data(move._data), weight(move.weight), threshold(move.threshold), countLearn(move.countLearn)
@@ -69,9 +68,9 @@ void Neuron::saveData(ofstream& out)
     out.write(reinterpret_cast<char*>(&countLearn), sizeof(countLearn));
 }
 
-void Neuron::setupData(MapMono map)
+void Neuron::setupData(MapMono& map)
 {
-    if(this->countLearn == 0)
+    if(countLearn == 0)
     {
         for(int i = 0; i < 13; ++i)
         {
@@ -100,7 +99,7 @@ void Neuron::print(void){
              << " " << _data[i].mean
              << " " << _data[i].median
              << " " << _data[i].min
-             << " " << _data[i].var
+             << " " << _data[i].var           
              << endl;
     }
 }
@@ -108,6 +107,11 @@ void Neuron::print(void){
 const string& Neuron::getStyleName() const
 {
     return style;
+}
+
+uint32_t Neuron::getCountLearning() const
+{
+    return countLearn;
 }
 
 Neuron::~Neuron()

@@ -28,8 +28,9 @@ public:
     Neuron& operator=(Neuron&& move);
     void loadData(ifstream&);
     void saveData(ofstream&);
-    void setupData(MapMono map);
+    void setupData(MapMono& map);
     void print(void);
     const string& getStyleName() const;
+    uint32_t getCountLearning() const;
     ~Neuron();
 };

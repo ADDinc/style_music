@@ -5,13 +5,13 @@
 class NeuronNetwork
 {
 private:
+    std::vector<Neuron> neurons;
     std::string filename;
 
     void loadNeurons();
     void saveNeurons();
 public:
-    std::vector<Neuron> neurons;
     NeuronNetwork(const string& filename, bool load);
     ~NeuronNetwork();
-    void learning(const string& style);
+    void learning(const string& style, MapMono& map);
 };

@@ -1,8 +1,6 @@
 #pragma once
-#include <string>
-#include <essentia/algorithmfactory.h>
-#include <essentia/essentiamath.h>
-#include <essentia/pool.h>
+
+#include "common.hpp"
 
 using namespace std;
 using namespace essentia;
