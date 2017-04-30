@@ -19,8 +19,9 @@ private:
     InputData *weight;
     double power;
     double threshold;
-    uint32_t countLearn;
+
 public:
+    uint32_t countLearn;
     Neuron(const string& style);
     Neuron(const Neuron& copy);
     Neuron(Neuron&& move);
@@ -29,6 +30,7 @@ public:
     void loadData(ifstream&);
     void saveData(ofstream&);
     void setupData(MapMono& map);
+    MapMono getNeuronDiff(MapMono& map);
     void print(void);
     const string& getStyleName() const;
     uint32_t getCountLearning() const;

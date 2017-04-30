@@ -1,4 +1,5 @@
 #include "neuron.hpp"
+#include <cmath>
 
 Neuron::Neuron(const string& style) : style(style)
 {
@@ -91,6 +92,18 @@ void Neuron::setupData(MapMono& map)
         }
     }
     ++countLearn;
+}
+
+MapMono Neuron::getNeuronDiff(MapMono& map){
+    MapMono m(map);
+    for(int i = 0; i < 13; i++){
+        m["lowlevel.mfcc.mean"][i] = fabs(_data[i].mean - map["lowlevel.mfcc.mean"][i]);
+        m["lowlevel.mfcc.max"][i] = fabs(_data[i].max - map["lowlevel.mfcc.max"][i]);
+        m["lowlevel.mfcc.median"][i] = fabs(_data[i].median - map["lowlevel.mfcc.median"][i]);
+        m["lowlevel.mfcc.min"][i] = fabs(_data[i].min - map["lowlevel.mfcc.min"][i]);
+        m["lowlevel.mfcc.var"][i] = fabs(_data[i].mean - map["lowlevel.mfcc.var"][i]);
+    }
+    return m;
 }
 
 void Neuron::print(void){

@@ -23,12 +23,11 @@ int main(int argc, char* argv[]) {
     Pool pool;
     MapMono v;
     string style = argv[2];
-    std::transform(style.cbegin(), style.cend(), style.begin(), ::tolower);    
-
+    
     try
     {
         //NeuronNetwork neuNtw("NN.db", false); // ничего не загружается создается чистая
-        NeuronNetwork neuNtw("./lol/NN.db", true); // загрузка
+        NeuronNetwork neuNtw("NN.db", true); // загрузка
         for(auto f : files)
         {
             //Neuron neu(style);
