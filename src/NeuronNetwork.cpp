@@ -153,6 +153,13 @@ std::vector<double> NeuronNetwork::getPower(MapMono& map)
     return neuronPower;
 }
 
+void NeuronNetwork::printPower(MapMono& map){
+    std::vector<double> v = this->getPower(map);
+    for(unsigned int i = 0; i < v.size(); i++)
+        std::cout << neurons[i].getStyleName() << ":" << v[i] << "  ";
+    std::cout << std::endl;
+}
+
 NeuronNetwork::~NeuronNetwork()
 {
     saveNeurons();

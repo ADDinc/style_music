@@ -15,4 +15,5 @@ public:
     ~NeuronNetwork();
     void learning(const string& style, MapMono& map);
     std::vector<double> getPower(MapMono& map);
+    void printPower(MapMono& map);
 };
