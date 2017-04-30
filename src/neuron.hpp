@@ -1,12 +1,8 @@
-#ifndef NEURON_HPP
-#define NEURON_HPP
-
-//#pragma once
+#pragma once
 #include "essentaisAlgoritms.hpp"
 #include "common.hpp"
 using namespace std;
 
-#include <iostream>
 typedef struct {
     double max;
     double mean;
@@ -26,6 +22,10 @@ private:
     uint32_t countLearn;
 public:
     Neuron(const string& style);
+    Neuron(const Neuron& copy);
+    Neuron(Neuron&& move);
+    Neuron& operator=(const Neuron& copy);
+    Neuron& operator=(Neuron&& move);
     void loadData(ifstream&);
     void saveData(ofstream&);
     void setupData(MapMono map);
@@ -33,5 +33,3 @@ public:
     const string& getStyleName() const;
     ~Neuron();
 };
-
-#endif //NEURON_HPP

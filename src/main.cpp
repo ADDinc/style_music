@@ -27,20 +27,26 @@ int main(int argc, char* argv[]) {
     string style = argv[2];
     NeuronNetwork neuNtw("NN.db", false); // ничего не загружается создается чистая
     //NeuronNetwork neuNtw("NN.db", true); // загрузка
-    Neuron neu(style);
+    
+    try
+    {
+        for(auto f : files)
+        {
+            Neuron neu(style);
+            v2 = getMapMetadataReader(getPoolMetadataReader(f));
+            v = getMapMonoLoader(getPoolMonoLoader(f));
+            cout << v2["title"] << "::" << v << endl;
 
-    for(auto f : files){
-        v2 = getMapMetadataReader(getPoolMetadataReader(f));
-        v = getMapMonoLoader(getPoolMonoLoader(f));
-        cout << v2["title"] << "::" << v << endl;
-
-        neu.setupData(v);
-        neu.print();
+            neu.setupData(v);
+            neu.print();
+            neuNtw.neurons.push_back(neu);
+        }
     }
-//    neuNtw.neurons[0].print();
-//    neuNtw.neurons.push_back(neu);
+    catch(exception &ex)
+    {
+        exceptionPrint(ex);
+    }
 
     essentia::shutdown();
-
     return 0;
 }

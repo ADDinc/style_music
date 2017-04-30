@@ -1,5 +1,4 @@
-#ifndef NEURONNETWORK_HPP
-#define NEURONNETWORK_HPP
+#pragma once
 
 #include "neuron.hpp"
 
@@ -16,6 +15,3 @@ public:
     ~NeuronNetwork();
     void learning(const string& style);
 };
-
-
-#endif //NEURONNETWORK_HPP

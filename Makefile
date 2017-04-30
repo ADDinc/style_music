@@ -27,7 +27,7 @@ rm       = rm -f
 all: build
 
 build: $(ESS_LIB_PATH)/lib/libessentia.so
-	$(CC) $(CFLAG) $(SRC)/main.cpp $(SRC)/essentaisAlgoritms.cpp -o  $(BIN)/standard_mfcc $(ESS_LIB_FLAG)
+	$(CC) $(CFLAG) $(SRC)/main.cpp $(SRC)/essentaisAlgoritms.cpp $(SRC)/filesystem.cpp $(SRC)/neuron.cpp $(SRC)/NeuronNetwork.cpp -o  $(BIN)/standard_mfcc $(ESS_LIB_FLAG)
 
 $(ESS_LIB_PATH)/lib/libessentia.so: install_essentia
 

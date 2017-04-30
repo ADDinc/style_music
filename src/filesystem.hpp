@@ -1,6 +1,4 @@
-#ifndef FILESYSTEM_HPP
-#define FILESYSTEM_HPP
-
+#pragma once
 #include <dirent.h>
 #include <regex>
 #include "common.hpp"
@@ -13,5 +11,3 @@ vector<string> getRegexMask(string&& strMask);
 bool directoryExist(const string& directory);
 bool checkFileMask(const vector<string>& regex_mask, const string& fileName);
 void getFileList(const string& directory, vector<string>& fileList, const vector<string>& regex_mask, bool bSearchSubDir = false);
-
-#endif
