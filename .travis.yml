@@ -1,0 +1,17 @@
+dist: trusty
+language: cpp
+compiler: gcc
+#addons:
+#  apt:
+#    sources:
+#      - sourceline: 'deb http://security.ubuntu.com/ubuntu trusty-security main universe'
+before_install:
+#  - sudo apt-get update -qq
+  - sudo apt-get install build-essential libyaml-dev libfftw3-dev libavcodec-dev libavformat-dev
+  - sudo apt-get install libavutil-dev python-dev 
+#  - wget http://security.ubuntu.com/ubuntu/pool/universe/liba/libav/libavresample-dev_9.20-0ubuntu0.14.04.1_amd64.deb
+#  - sudo dpkg -i libavresample-dev_9.20-0ubuntu0.14.04.1_amd64.deb
+  - sudo apt-get install libavresample-dev
+  - sudo apt-get install libsamplerate0-dev libtag1-dev
+  - sudo apt-get install python-numpy-dev python-numpy python-yaml
+script: make
