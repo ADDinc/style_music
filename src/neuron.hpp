@@ -16,23 +16,28 @@ class Neuron
 private:
     string style;
     InputData *_data;
-    InputData *weight;
-    double power;
-    double threshold;
-
-public:
     uint32_t countLearn;
-    Neuron(const string& style);
-    Neuron(const Neuron& copy);
+public:
+    Neuron(const string &style);
+    Neuron(const Neuron &copy);
     Neuron(Neuron&& move);
-    Neuron& operator=(const Neuron& copy);
+    Neuron& operator=(const Neuron &copy);
     Neuron& operator=(Neuron&& move);
     void loadData(ifstream&);
     void saveData(ofstream&);
-    void setupData(MapMono& map);
-    MapMono getNeuronDiff(MapMono& map);
+    void setupData(MapMono &map);
+    MapMono getNeuronDiff(MapMono &map);
     void print(void);
-    const string& getStyleName() const;
-    uint32_t getCountLearning() const;
+
+    const string& getStyleName() const
+    {
+        return style;
+    }
+
+    uint32_t getCountLearning() const
+    {
+        return countLearn;
+    }
+
     ~Neuron();
 };

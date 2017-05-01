@@ -8,27 +8,24 @@ using namespace essentia::standard;
 
 int main(int argc, char *argv[])
 {
-
     int rez = 0;
     string dir, style;
     bool learn = false;
-//	opterr=0;
     while ((rez = getopt(argc, argv, "d:l:")) != -1) {
         switch (rez) {
-            case 'd': {
-                printf("found argument \"d = %s\".\n", optarg);
-                dir = optarg;
-                break;
-            }
-            case 'l': {
-                printf("found argument \"l = %s\".\n", optarg);
-                style = optarg;
-                learn = true;
-                break;
-            }
-            case '?':
-                printf("Error found !\n");
-                break;
+        case 'd':
+            printf("found argument \"d = %s\".\n", optarg);
+            dir = optarg;
+            break;
+        case 'l':
+            printf("found argument \"l = %s\".\n", optarg);
+            style = optarg;
+            stringTolower(style);
+            learn = true;
+            break;
+        case '?':
+            printf("Error found !\n");
+            break;
         };
     };
     cout << dir << "  " << style << endl;
@@ -37,7 +34,7 @@ int main(int argc, char *argv[])
 
     try {
         vector <string> mask = getRegexMask("*.flac|*.mp3|*.m4a");
-        getFileList(dir, files, mask, true);
+        getFileList(dir, files, mask);
     }
     catch (exception &ex) {
         exceptionPrint(ex, "main (get file list)");
@@ -49,9 +46,9 @@ int main(int argc, char *argv[])
 
     try {
         //NeuronNetwork neuNtw("NN.db", false); // ничего не загружается создается чистая
-        NeuronNetwork neuNtw("NN.db", true); // загрузка
+        NeuronNetwork neuNtw("NN.db"); // загрузка
         vector<double> power;
-        for (auto f : files) {
+        for (auto &f : files) {
             //Neuron neu(style);
             v2 = getMapMetadataReader(getPoolMetadataReader(f));
             v = getMapMonoLoader(getPoolMonoLoader(f));
