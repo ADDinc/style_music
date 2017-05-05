@@ -28,6 +28,9 @@
 *.out
 *.app
 
+#DataBase
+*.db
+
 bin/*
 thirdparty/*
 build/*
