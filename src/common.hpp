@@ -20,3 +20,8 @@ inline std::string& stringTolower(std::string &str)
     std::transform(str.cbegin(), str.cend(), str.begin(), ::tolower);
     return str;
 }
+
+inline void statusMsg(const std::string &string)
+{
+    std::cout << string << '\r' << std::flush;
+}

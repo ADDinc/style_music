@@ -63,7 +63,6 @@ Pool getPoolMonoLoader(const string audioFilename)
     Algorithm *mfcc = factory.create("MFCC");
 
     /////////// CONNECTING THE ALGORITHMS ////////////////
-    cout << "-------- connecting algos ---------" << endl;
 
     // Audio -> FrameCutter
     vector <Real> audioBuffer;
@@ -92,7 +91,7 @@ Pool getPoolMonoLoader(const string audioFilename)
 
 
     /////////// STARTING THE ALGORITHMS //////////////////
-    cout << "-------- start processing " << audioFilename << " --------" << endl;
+    statusMsg("-------- start processing " + audioFilename + " --------");
 
     audio->compute();
 

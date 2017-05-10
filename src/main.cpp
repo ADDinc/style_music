@@ -8,6 +8,11 @@ using namespace essentia::standard;
 
 int main(int argc, char *argv[])
 {
+    if (argc == 1) {
+        cout << "Use: " << argv[0] << " <filename|-d (directory)|-f (file)> <необязательные параметры>" << endl;
+        return 1;
+    }
+
     int rez = 0;
     string dir, style;
     bool learn = false;
@@ -28,7 +33,6 @@ int main(int argc, char *argv[])
             break;
         };
     };
-    cout << dir << "  " << style << endl;
     essentia::init();
     vector <string> files;
 
@@ -39,27 +43,18 @@ int main(int argc, char *argv[])
     catch (exception &ex) {
         exceptionPrint(ex, "main (get file list)");
     }
-    Pool poolTags;
     MapTags v2;
-    Pool pool;
     MapMono v;
 
     try {
-        //NeuronNetwork neuNtw("NN.db", false); // ничего не загружается создается чистая
         NeuronNetwork neuNtw("NN.db"); // загрузка
         vector<double> power;
         for (auto &f : files) {
-            //Neuron neu(style);
             v2 = getMapMetadataReader(getPoolMetadataReader(f));
             v = getMapMonoLoader(getPoolMonoLoader(f));
-            //cout << v2["title"] << "::" << v << endl;
-
-            //neu.setupData(v);
-            //neu.print();
             if (learn) {
                 neuNtw.learning(style, v);
-            }
-            else {
+            } else {
                 neuNtw.printPower(v);
             }
         }

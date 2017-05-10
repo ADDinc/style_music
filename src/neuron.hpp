@@ -20,9 +20,9 @@ private:
 public:
     Neuron(const string &style);
     Neuron(const Neuron &copy);
-    Neuron(Neuron&& move);
+    Neuron(Neuron&& move) noexcept;
     Neuron& operator=(const Neuron &copy);
-    Neuron& operator=(Neuron&& move);
+    Neuron& operator=(Neuron&& move) noexcept;
     void loadData(ifstream&);
     void saveData(ofstream&);
     void setupData(MapMono &map);
@@ -39,5 +39,5 @@ public:
         return countLearn;
     }
 
-    ~Neuron();
+    ~Neuron() noexcept;
 };

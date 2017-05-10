@@ -13,7 +13,7 @@ Neuron::Neuron(const Neuron &copy) : style(copy.style), countLearn(copy.countLea
     std::memcpy(_data, copy._data, sizeof(InputData[13]));
 }
 
-Neuron::Neuron(Neuron&& move) : style(move.style), _data(move._data), countLearn(move.countLearn)
+Neuron::Neuron(Neuron&& move) noexcept : style(move.style), _data(move._data), countLearn(move.countLearn)
 {
     move._data = nullptr;
     move.countLearn = 0;
@@ -28,7 +28,7 @@ Neuron& Neuron::operator=(const Neuron &copy)
     return *this;
 }
 
-Neuron& Neuron::operator=(Neuron&& move)
+Neuron& Neuron::operator=(Neuron&& move) noexcept
 {
     delete[] _data;
     _data = move._data;
@@ -102,7 +102,7 @@ void Neuron::print(void)
     }
 }
 
-Neuron::~Neuron()
+Neuron::~Neuron() noexcept
 {
     delete[] _data;
 }
