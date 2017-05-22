@@ -48,7 +48,7 @@ TEST(filesystem,testFileExist)
 {
   std::string filemane = "Rihana.mp3";
   EXPECT_FALSE(fileExist(filemane));
-  filemane = "KanyWast.mp3";
+  filemane = "test/filesForTest/Kany West - Power.mp3";
   EXPECT_TRUE(fileExist(filemane));
 }
 
