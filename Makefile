@@ -42,7 +42,8 @@ $(OBJECTS): $(BUILD)/%.o : $(SRC)/%.cpp
 
 .PHONY: test
 test: build_test
-
+	@./$(BIN)/$(TARGETTEST)
+		
 build_test: $(ESS_LIB_PATH)/lib/libessentia.so $(OBJECTSFORTEST) $(OBJECTSTEST) $(BUILDTEST)/gtest-all.o
 	@$(CC) $(CFLAG) $(OBJECTSFORTEST) $(OBJECTSTEST) $(BUILDTEST)/gtest-all.o -o $(BIN)/$(TARGETTEST) $(GTEST_INCLUDE) $(ESS_LIB_FLAG) -lpthread
 	@echo "\033[0;32m[TEST] Linking \""$(TARGETTEST)"\" complete!\033[0;0m"
