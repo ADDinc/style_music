@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <filesystem.hpp>
 
+
 TEST(filesystem, testReplace)
 {
     std::string replaced = "Replaced";
@@ -12,17 +13,22 @@ TEST(filesystem, testReplace)
 
 TEST(filesystem, testSplit)
 {
-  std::vector<std::string> regexMask;
-  std::vector<std::string> outRegeMask = {{"*.flac"},{"*.mp3"},{"*.m4a"}};
-  std::string strMask = "*.flac|*.mp3|*.m4a";
-  split(strMask, "|", regexMask);
-  unsigned int vector_size_regexMask = regexMask.size();
-  unsigned int vector_size_outRegexMask = outRegeMask.size();
-  EXPECT_EQ(vector_size_regexMask, vector_size_outRegexMask);
-  //EXPECT_DEATH({split(strMask, "|", regexMask);},"");
+    std::string splited = "Spl:it";
+    std::vector<std::string> out, res{"Spl", "it"};
+    split(splited, ":", out);
+    ASSERT_EQ(res.size(), out.size());
+    EXPECT_EQ(res, out);
 }
 
-TEST(expectTrueFalseTest,testDirectoryExist)
+TEST(filesystem, testMask)
+{
+  std::vector<std::string> regexMask = getRegexMask("*.flac|*.mp3|*.m4a");
+  std::vector<std::string> outRegexMask = {".*\\.flac", ".*\\.mp3", ".*\\.m4a"};
+  EXPECT_EQ(regexMask.size(), outRegexMask.size());
+  EXPECT_EQ(regexMask,outRegexMask);
+}
+
+TEST(filesystem,testDirectoryExist)
 {
   std::string directory = "";
   EXPECT_TRUE(directoryExist(directory));
@@ -30,30 +36,15 @@ TEST(expectTrueFalseTest,testDirectoryExist)
   EXPECT_FALSE(directoryExist(directory));
 }
 
-class createDirectoryTest : public ::testing::Test
-{
-    public:
-        virtual ~createDirectoryTest() {rmdir("temp");}
-    protected:
-        virtual void SetUp()
-        {
-            // не должен работать когда есть ~/#/%/&/*/{}/\/:/<>/?/+/|/""/_/./_vti_
-        }
-        virtual void TearDown()
-        {
-          rmdir("temp");
-        }
-};
-
-TEST(createDirectoryTest ,testCreateDirectory)
+TEST(filesystem ,testCreateDirectory)
 {
   std::string directory = "temp";
   EXPECT_TRUE(createDirectory(directory));
   EXPECT_FALSE(createDirectory(directory));
-  rmdir("temp");
+  rmdir(directory.c_str());
 }
 
-TEST(expectFalseTrueTest,testFileExist)
+TEST(filesystem,testFileExist)
 {
   std::string filemane = "Rihana.mp3";
   EXPECT_FALSE(fileExist(filemane));
@@ -61,7 +52,7 @@ TEST(expectFalseTrueTest,testFileExist)
   EXPECT_TRUE(fileExist(filemane));
 }
 
-TEST(expectFalseTrueTes,testCheckFileMask)
+TEST(filesystem,testCheckFileMask)
 {
   std::vector<std::string> outRegeMask = getRegexMask("*.flac|*.mp3|*.m4a");
   std::string filemane = "KanyWast.mp3";
