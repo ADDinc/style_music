@@ -22,39 +22,33 @@ TEST(filesystem, testSplit)
 
 TEST(filesystem, testMask)
 {
-  std::vector<std::string> regexMask = getRegexMask("*.flac|*.mp3|*.m4a");
-  std::vector<std::string> outRegexMask = {".*\\.flac", ".*\\.mp3", ".*\\.m4a"};
-  EXPECT_EQ(regexMask.size(), outRegexMask.size());
-  EXPECT_EQ(regexMask,outRegexMask);
+    std::vector<std::string> regexMask = getRegexMask("*.flac|*.mp3|*.m4a");
+    std::vector<std::string> outRegexMask = {".*\\.flac", ".*\\.mp3", ".*\\.m4a"};
+    EXPECT_EQ(regexMask.size(), outRegexMask.size());
+    EXPECT_EQ(regexMask,outRegexMask);
 }
 
-TEST(filesystem,testDirectoryExist)
+TEST(filesystem, testDirectoryExist)
 {
-  std::string directory = "";
-  EXPECT_TRUE(directoryExist(directory));
-  directory = "no empty";
-  EXPECT_FALSE(directoryExist(directory));
+    EXPECT_TRUE(directoryExist("test"));
+    EXPECT_FALSE(directoryExist("no empty"));
 }
 
-TEST(filesystem ,testCreateDirectory)
+TEST(filesystem, testCreateDirectory)
 {
-  std::string directory = "temp";
-  EXPECT_TRUE(createDirectory(directory));
-  EXPECT_FALSE(createDirectory(directory));
-  rmdir(directory.c_str());
+    std::string directory = "temp";
+    EXPECT_TRUE(createDirectory(directory));
+    EXPECT_FALSE(createDirectory(directory));
+    rmdir(directory.c_str());
 }
 
-TEST(filesystem,testFileExist)
+TEST(filesystem, testFileExist)
 {
-  std::string filemane = "Rihana.mp3";
-  EXPECT_FALSE(fileExist(filemane));
-  filemane = "test/filesForTest/Kany West - Power.mp3";
-  EXPECT_TRUE(fileExist(filemane));
+    EXPECT_FALSE(fileExist("Rihana.mp3"));
+    EXPECT_TRUE(fileExist("test/filesForTest/Kany West - Power.mp3"));
 }
 
-TEST(filesystem,testCheckFileMask)
+TEST(filesystem, testCheckFileMask)
 {
-  std::vector<std::string> outRegeMask = getRegexMask("*.flac|*.mp3|*.m4a");
-  std::string filemane = "KanyWast.mp3";
-  EXPECT_TRUE(checkFileMask(outRegeMask, filemane));
+    EXPECT_TRUE(checkFileMask(getRegexMask("*.flac|*.mp3|*.m4a"), "Hello.mp3"));
 }
