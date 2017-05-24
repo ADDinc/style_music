@@ -2,8 +2,19 @@ dist: trusty
 language: cpp
 compiler: gcc
 before_install:
-  - sudo apt-get install build-essential libyaml-dev libfftw3-dev libavcodec-dev libavformat-dev
-  - sudo apt-get install libavutil-dev python-dev libavresample-dev
+  - sudo apt-get install build-essential libyaml-dev libfftw3-dev python-dev
   - sudo apt-get install libsamplerate0-dev libtag1-dev
   - sudo apt-get install python-numpy-dev python-numpy python-yaml
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq g++-5
+  - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-5 90
+  - wget https://libav.org/releases/libav-12.1.tar.xz
+  - tar xvf libav-12.1.tar.xz
+  - cd libav-12.1
+  - ./configure --disable-yasm --enable-shared
+  - make
+  - sudo make install
+  - cd ..
+  - export LD_LIBRARY_PATH=/lib:/usr/lib:/usr/local/lib
 script: make && make test
