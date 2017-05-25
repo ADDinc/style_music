@@ -65,13 +65,13 @@ Pool getPoolMonoLoader(const string audioFilename)
     /////////// CONNECTING THE ALGORITHMS ////////////////
 
     // Audio -> FrameCutter
-    vector <Real> audioBuffer;
+    vector<Real> audioBuffer;
 
     audio->output("audio").set(audioBuffer);
     fc->input("signal").set(audioBuffer);
 
     // FrameCutter -> Windowing -> Spectrum
-    vector <Real> frame, windowedFrame;
+    vector<Real> frame, windowedFrame;
 
     fc->output("frame").set(frame);
     w->input("frame").set(frame);
@@ -80,7 +80,7 @@ Pool getPoolMonoLoader(const string audioFilename)
     spec->input("frame").set(windowedFrame);
 
     // Spectrum -> MFCC
-    vector <Real> spectrum, mfccCoeffs, mfccBands;
+    vector<Real> spectrum, mfccCoeffs, mfccBands;
 
     spec->output("spectrum").set(spectrum);
     mfcc->input("spectrum").set(spectrum);

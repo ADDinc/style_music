@@ -1,26 +1,29 @@
 #include "neuron.hpp"
 #include <cmath>
 
-Neuron::Neuron(const string &style) : style(style)
+Neuron::Neuron(const string &style)
+    : style(style)
 {
     _data = new InputData[13];
     countLearn = 0;
 }
 
-Neuron::Neuron(const Neuron &copy) : style(copy.style), countLearn(copy.countLearn)
+Neuron::Neuron(const Neuron &copy)
+    : style(copy.style), countLearn(copy.countLearn)
 {
     _data = new InputData[13];
     std::memcpy(_data, copy._data, sizeof(InputData[13]));
 }
 
-Neuron::Neuron(Neuron&& move) noexcept : style(move.style), _data(move._data), countLearn(move.countLearn)
+Neuron::Neuron(Neuron &&move) noexcept
+    : style(move.style), _data(move._data), countLearn(move.countLearn)
 {
     move._data = nullptr;
     move.countLearn = 0;
     move.style.clear();
 }
 
-Neuron& Neuron::operator=(const Neuron &copy)
+Neuron &Neuron::operator=(const Neuron &copy)
 {
     std::memcpy(_data, copy._data, sizeof(InputData[13]));
     style = copy.style;
@@ -28,7 +31,7 @@ Neuron& Neuron::operator=(const Neuron &copy)
     return *this;
 }
 
-Neuron& Neuron::operator=(Neuron&& move) noexcept
+Neuron &Neuron::operator=(Neuron &&move) noexcept
 {
     delete[] _data;
     _data = move._data;
@@ -57,19 +60,22 @@ void Neuron::saveData(ofstream &out)
 
 void Neuron::setupData(MapMono &map)
 {
-    if(countLearn == 0) {
-        for(int i = 0; i < 13; ++i) {
+    if (countLearn == 0) {
+        for (int i = 0; i < 13; ++i) {
             _data[i].mean = map["lowlevel.mfcc.mean"][i];
             _data[i].max = map["lowlevel.mfcc.max"][i];
             _data[i].median = map["lowlevel.mfcc.median"][i];
             _data[i].min = map["lowlevel.mfcc.min"][i];
             _data[i].var = map["lowlevel.mfcc.var"][i];
         }
-    } else {
-        for(int i = 0; i < 13; ++i) {
-            _data[i].mean = _data[i].mean / (1.l + 1.l / countLearn) + map["lowlevel.mfcc.mean"][i] / (countLearn + 1.l);
+    }
+    else {
+        for (int i = 0; i < 13; ++i) {
+            _data[i].mean =
+                _data[i].mean / (1.l + 1.l / countLearn) + map["lowlevel.mfcc.mean"][i] / (countLearn + 1.l);
             _data[i].max = _data[i].max / (1.l + 1.l / countLearn) + map["lowlevel.mfcc.max"][i] / (countLearn + 1.l);
-            _data[i].median = _data[i].median / (1.l + 1.l / countLearn) + map["lowlevel.mfcc.median"][i] / (countLearn + 1.l);
+            _data[i].median =
+                _data[i].median / (1.l + 1.l / countLearn) + map["lowlevel.mfcc.median"][i] / (countLearn + 1.l);
             _data[i].min = _data[i].min / (1.l + 1.l / countLearn) + map["lowlevel.mfcc.min"][i] / (countLearn + 1.l);
             _data[i].var = _data[i].var / (1.l + 1.l / countLearn) + map["lowlevel.mfcc.var"][i] / (countLearn + 1.l);
         }
@@ -80,7 +86,7 @@ void Neuron::setupData(MapMono &map)
 MapMono Neuron::getNeuronDiff(MapMono &map)
 {
     MapMono m(map);
-    for(int i = 0; i < 13; i++) {
+    for (int i = 0; i < 13; i++) {
         m["lowlevel.mfcc.mean"][i] = fabs(_data[i].mean - map["lowlevel.mfcc.mean"][i]);
         m["lowlevel.mfcc.max"][i] = fabs(_data[i].max - map["lowlevel.mfcc.max"][i]);
         m["lowlevel.mfcc.median"][i] = fabs(_data[i].median - map["lowlevel.mfcc.median"][i]);
@@ -91,13 +97,13 @@ MapMono Neuron::getNeuronDiff(MapMono &map)
 }
 
 void Neuron::print(void)
-{  
-    for(int i = 0; i < 13; i++) {
+{
+    for (int i = 0; i < 13; i++) {
         cout << _data[i].max
              << " " << _data[i].mean
              << " " << _data[i].median
              << " " << _data[i].min
-             << " " << _data[i].var           
+             << " " << _data[i].var
              << endl;
     }
 }

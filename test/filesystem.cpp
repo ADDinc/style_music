@@ -25,7 +25,7 @@ TEST(filesystem, testMask)
     std::vector<std::string> regexMask = getRegexMask("*.flac|*.mp3|*.m4a");
     std::vector<std::string> outRegexMask = {".*\\.flac", ".*\\.mp3", ".*\\.m4a"};
     EXPECT_EQ(regexMask.size(), outRegexMask.size());
-    EXPECT_EQ(regexMask,outRegexMask);
+    EXPECT_EQ(regexMask, outRegexMask);
 }
 
 TEST(filesystem, testDirectoryExist)

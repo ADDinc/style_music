@@ -11,18 +11,20 @@
 #include <unistd.h>
 
 extern bool learn;
+
 extern bool info;
+
 extern std::string style;
 
 void getFileListFromFile(const std::string &filename, std::vector<std::string> &fileList);
 int input(int argc, char *argv[], std::vector<std::string> &files);
 
-inline void exceptionPrint(std::exception &exception, const std::string& from = "")
+inline void exceptionPrint(std::exception &exception, const std::string &from = "")
 {
     std::cout << "\033[1;31m" << from << ": " << exception.what() << "\033[0m" << std::endl;
 }
 
-inline std::string& stringToLower(std::string &&str)
+inline std::string &stringToLower(std::string &&str)
 {
     std::transform(str.cbegin(), str.cend(), str.begin(), ::tolower);
     return str;
