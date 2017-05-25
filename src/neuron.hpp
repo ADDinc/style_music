@@ -3,7 +3,8 @@
 #include "common.hpp"
 using namespace std;
 
-typedef struct {
+typedef struct
+{
     double max;
     double mean;
     double median;
@@ -20,16 +21,16 @@ private:
 public:
     Neuron(const string &style);
     Neuron(const Neuron &copy);
-    Neuron(Neuron&& move) noexcept;
-    Neuron& operator=(const Neuron &copy);
-    Neuron& operator=(Neuron&& move) noexcept;
-    void loadData(ifstream&);
-    void saveData(ofstream&);
+    Neuron(Neuron &&move) noexcept;
+    Neuron &operator=(const Neuron &copy);
+    Neuron &operator=(Neuron &&move) noexcept;
+    void loadData(ifstream &);
+    void saveData(ofstream &);
     void setupData(MapMono &map);
     MapMono getNeuronDiff(MapMono &map);
     void print(void);
 
-    const string& getStyleName() const
+    const string &getStyleName() const
     {
         return style;
     }
