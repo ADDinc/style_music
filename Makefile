@@ -2,7 +2,8 @@
 CC = g++
 CFLAG = -Wall -Werror -pipe -O2 -fPIC -D__STDC_CONSTANT_MACROS -std=c++11
 ESS_LIB_PATH = ./bin
-ESS_LIB_FLAG = -L $(ESS_LIB_PATH)/lib -lessentia -Wl,-rpath=$(ESS_LIB_PATH)/lib
+RUN_PATH = $(shell pwd)/$(ESS_LIB_PATH)/lib
+ESS_LIB_FLAG = -L $(ESS_LIB_PATH)/lib -I $(ESS_LIB_PATH)/include -lessentia -Wl,-rpath=$(RUN_PATH)
 ESS_INCLUDE = -I $(ESS_LIB_PATH)/include
 GTEST_INCLUDE = -I $(SRCTEST)/$(GTEST)/include -I $(SRCTEST)/$(GTEST) -I $(SRC)
 #folder define
