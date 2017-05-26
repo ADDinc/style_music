@@ -1,6 +1,6 @@
 #include "essentaisAlgoritms.hpp"
 
-Pool getPoolMetadataReader(const string audioFilename)
+void getMetadata(const string &audioFilename)
 {
     Algorithm *metadata = AlgorithmFactory::create("MetadataReader",
                                                    "filename", audioFilename,
@@ -18,25 +18,21 @@ Pool getPoolMetadataReader(const string audioFilename)
     metadata->output("genre").set(genre);
     metadata->output("tracknumber").set(tracknumber);
     metadata->output("date").set(date);
-
     metadata->output("bitrate").set(bitrate);
     metadata->output("channels").set(channels);
     metadata->output("duration").set(duration);
     metadata->output("sampleRate").set(sampleRate);
-
     metadata->output("tagPool").set(poolTags);
-
     metadata->compute();
 
+    cout << YELLOW "==== METADATA - \"" << getFilenameFromFilePath(audioFilename) << "\" ====" RESET << endl
+         << "Title: " << title << endl << "Artist: " << artist << endl << "Album: " << album << endl << "Genre: "
+         << genre << endl << "BitRate: " << bitrate << " kb/s" << endl << "Duration: " << duration / 60 << ":"
+         << duration % 60 << "m" << endl
+         << BLUE "<<==>> END METADATA <<==>>" RESET << endl;
+
     delete metadata;
-
-    return poolTags;
 }
-
-MapTags getMapMetadataReader(Pool metaPool)
-{
-    return metaPool.getStringPool();
-};
 
 Pool getPoolMonoLoader(const string audioFilename)
 {
@@ -63,7 +59,6 @@ Pool getPoolMonoLoader(const string audioFilename)
     Algorithm *mfcc = factory.create("MFCC");
 
     /////////// CONNECTING THE ALGORITHMS ////////////////
-    cout << "-------- connecting algos ---------" << endl;
 
     // Audio -> FrameCutter
     vector <Real> audioBuffer;
@@ -92,7 +87,7 @@ Pool getPoolMonoLoader(const string audioFilename)
 
 
     /////////// STARTING THE ALGORITHMS //////////////////
-    cout << "-------- start processing " << audioFilename << " --------" << endl;
+    statusMsg("--------| " + string(learn ? "Learning" : "Processing") + ": " + audioFilename + " |--------");
 
     audio->compute();
 
@@ -128,6 +123,7 @@ Pool getPoolMonoLoader(const string audioFilename)
     aggr->output("output").set(aggrPool);
     aggr->compute();
 
+    clearStatusMsg();
     delete audio;
     delete fc;
     delete w;
@@ -142,12 +138,3 @@ MapMono getMapMonoLoader(Pool monoPool)
 {
     return monoPool.getRealPool();
 };
-
-void YamlOutputPool(const string outputFilename, Pool pool)
-{
-    Algorithm *output = AlgorithmFactory::create("YamlOutput",
-                                                 "filename", outputFilename);
-    output->input("pool").set(pool);
-    output->compute();
-    delete output;
-}
