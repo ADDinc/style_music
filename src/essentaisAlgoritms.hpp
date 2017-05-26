@@ -6,16 +6,14 @@ using namespace std;
 using namespace essentia;
 using namespace essentia::standard;
 
-typedef vector<string> VectorPoolTags;
+typedef vector <string> VectorPoolTags;
 
-typedef vector<Real> VectorPoolStat;
+typedef vector <Real> VectorPoolStat;
 
-typedef map<string, VectorPoolStat> MapMono;
+typedef map <string, VectorPoolStat> MapMono;
 
-typedef map<string, VectorPoolTags> MapTags;
+typedef map <string, VectorPoolTags> MapTags;
 
-Pool getPoolMetadataReader(const string audioFilename);
-MapTags getMapMetadataReader(Pool metaPool);
+void getMetadata(const string &audioFilename);
 Pool getPoolMonoLoader(const string audioFilename);
 MapMono getMapMonoLoader(Pool monoPool);
-void YamlOutputPool(const string outputFilename, Pool pool);
