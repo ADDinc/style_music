@@ -31,14 +31,14 @@ TEST(common, fileParametrs)
     EXPECT_EQ("test/filesForTest/Kany West - Power.mp3", outFileList[0]);
 }
 
-TEST(common, DISABLED_keyDirectoryParametrs)
+TEST(common, keyDirectoryParametrs)
 {
     optind = indexNextPointerArgv;
     std::vector<std::string> outFileList;
     std::vector<std::string> outResult =
         {"test/filesForTest/Arctic Monkey - Old Yellow Bricks.mp3", "test/filesForTest/Kany West - Power.mp3",
          "test/filesForTest/Maroon 5 - dont wanna know.mp3"};
-    char keyd[] = "-d", directory[] = "test/filesForTest/";
+    char keyd[] = "-d", directory[] = "test/filesForTest";
     char *argv[] = {nullptr, keyd, directory};
     EXPECT_EQ(input(sizeof(argv) / sizeof(argv[0]), argv, outFileList), 0);
     std::sort(outResult.begin(), outResult.end());

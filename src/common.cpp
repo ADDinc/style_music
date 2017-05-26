@@ -3,23 +3,28 @@
 
 using namespace std;
 
-void getFileListFromFile(const string &filename, vector<string> &fileList)
+void getFileListFromFile(const string &filename, vector <string> &fileList)
 {
     ifstream file(filename, ios_base::in);
     string audio;
     if (file.is_open()) {
         while (getline(file, audio)) {
-            if (fileExist(audio))
+            if (fileExist(audio)) {
                 fileList.push_back(audio);
-            else
-                cerr << "File \"" << audio << "\" is missing!" << endl;
+            }
+            else {
+                if (fileExist(getDirectoryFromFilePath(filename) + audio))
+                    fileList.push_back(getDirectoryFromFilePath(filename) + audio);
+                else
+                    cerr << "File \"" << audio << "\" is missing!" << endl;
+            }
             audio.clear();
         }
         file.close();
     }
 }
 
-int input(int argc, char *argv[], vector<string> &files)
+int input(int argc, char *argv[], vector <string> &files)
 {
     if (argc == 1) {
         cout << "Use: " << argv[0] << " <filename|-d (directory)|-f (file)> <необязательные параметры>" << endl;
@@ -44,44 +49,54 @@ int input(int argc, char *argv[], vector<string> &files)
         }
         else {
             switch (rez) {
-                case 'd':
-                    if (optarg != nullptr) {
-                        getFileList(optarg, files, getRegexMask("*.flac|*.mp3|*.m4a"));
+            case 'd':
+                if (optarg != nullptr) {
+                    getFileList(string(optarg) + "/", files, getRegexMask("*.flac|*.mp3|*.m4a"));
+                }
+                else {
+                    if (argv[optind] != nullptr) {
+                        if (argv[optind][0] != '-')
+                            getFileList(string(argv[optind++]) + "/", files, getRegexMask("*.flac|*.mp3|*.m4a"));
+                        break;
                     }
-                    else {
-                        if (argv[optind] != nullptr) {
-                            if (argv[optind][0] != '-')
-                                getFileList(argv[optind++], files, getRegexMask("*.flac|*.mp3|*.m4a"));
-                            break;
-                        }
-                        cerr << "Use: -d <directory>" << endl;
+                    cerr << "Use: -d <directory>" << endl;
+                }
+                break;
+            case 'l':
+                style = stringToLower(optarg);
+                learn = true;
+                break;
+            case 'f':
+                if (optarg != nullptr) {
+                    getFileListFromFile(optarg, files);
+                }
+                else {
+                    if (argv[optind] != nullptr) {
+                        if (argv[optind][0] != '-')
+                            getFileListFromFile(argv[optind++], files);
+                        break;
                     }
-                    break;
-                case 'l':
-                    style = stringToLower(optarg);
-                    learn = true;
-                    break;
-                case 'f':
-                    if (optarg != nullptr) {
-                        getFileListFromFile(optarg, files);
-                    }
-                    else {
-                        if (argv[optind] != nullptr) {
-                            if (argv[optind][0] != '-')
-                                getFileListFromFile(argv[optind++], files);
-                            break;
-                        }
-                        cerr << "Use: -f <filename>" << endl;
-                    }
-                    break;
-                case 'i':
-                    info = true;
-                    break;
-                case '?':
-                    cout << "Not found!" << endl;
-                    break;
+                    cerr << "Use: -f <filename>" << endl;
+                }
+                break;
+            case 'i':
+                info = true;
+                break;
+            case '?':
+                cout << "Not found!" << endl;
+                break;
             }
         }
     };
     return 0;
+}
+
+string getDirectoryFromFilePath(const string &filePath)
+{
+    return filePath.substr(0, filePath.find_last_of('/') + 1);
+}
+
+string getFilenameFromFilePath(const string &filePath)
+{
+    return filePath.substr(filePath.find_last_of('/') + 1);
 }
