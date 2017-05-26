@@ -14,8 +14,8 @@ BUILDTEST = build/test
 DIRGUARD=@mkdir -p $(@D)
 GTEST = gtest_1.8.0
 #target
-TARGET = main
-TARGETTEST = main_test
+TARGET = style_music
+TARGETTEST = $(TARGET)_test
 #sources
 SOURCES := $(wildcard $(SRC)/*.cpp)
 SOURCESTEST := $(wildcard $(SRCTEST)/*.cpp)
