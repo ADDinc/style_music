@@ -5,7 +5,7 @@
 class NeuronNetwork
 {
 private:
-    std::vector<Neuron> neurons;
+    std::vector <Neuron> neurons;
     std::string filename;
 
     void loadNeurons();
@@ -15,5 +15,5 @@ public:
     ~NeuronNetwork();
     void learning(const string &style, MapMono &map);
     std::vector<double> getPower(MapMono &map);
-    void printPower(MapMono &map);
+    bool getStyles(MapMono &map);
 };

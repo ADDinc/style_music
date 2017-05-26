@@ -63,7 +63,7 @@ void NeuronNetwork::learning(const string &style, MapMono &data)
 std::vector<double> NeuronNetwork::getPower(MapMono &map)
 {
     std::vector<double> neuronPower(neurons.size());
-    std::vector<MapMono> v;
+    std::vector <MapMono> v;
     for (unsigned int k = 0; k < neuronPower.size(); k++) {
         neuronPower[k] = 0;
     }
@@ -156,12 +156,18 @@ std::vector<double> NeuronNetwork::getPower(MapMono &map)
     return neuronPower;
 }
 
-void NeuronNetwork::printPower(MapMono &map)
+bool NeuronNetwork::getStyles(MapMono &map)
 {
-    std::vector<double> v = this->getPower(map);
-    for (unsigned int i = 0; i < v.size(); i++)
-        std::cout << neurons[i].getStyleName() << ":" << v[i] << "  ";
-    std::cout << std::endl;
+    if (neurons.empty())
+        return false;
+    std::vector<double> power = this->getPower(map);
+    unsigned int maxPowerId = std::max_element(power.cbegin(), power.cend()) - power.cbegin();
+    std::cout << GREEN << neurons[maxPowerId].getStyleName() << " (" << power[maxPowerId] << ")" << RESET;
+    for (unsigned int ind = 0; ind < power.size(); ++ind)
+        if (maxPowerId != ind && ((power[maxPowerId] - power[ind]) <= 1.f))
+            std::cout << MAGENTA ", " << neurons[ind].getStyleName() << " (" << power[ind] << ")";
+    std::cout << RESET << std::endl;
+    return true;
 }
 
 NeuronNetwork::~NeuronNetwork()

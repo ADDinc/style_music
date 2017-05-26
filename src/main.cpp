@@ -13,26 +13,28 @@ string style;
 
 int main(int argc, char *argv[])
 {
-    vector<string> files;
+    vector <string> files;
     if (input(argc, argv, files) == -1)
         return -1;
     if (!files.empty()) {
         essentia::init();
 
-        MapTags v2;
-        MapMono v;
-
         try {
-            NeuronNetwork neuNtw("NN.db"); // загрузка
+            NeuronNetwork neuNtw("NN.db");
             vector<double> power;
-            for (auto &f : files) {
-                v2 = getMapMetadataReader(getPoolMetadataReader(f));
-                v = getMapMonoLoader(getPoolMonoLoader(f));
+            for (auto &file : files) {
+                if (info)
+                    getMetadata(file);
+                MapMono mapMonoLoader = getMapMonoLoader(getPoolMonoLoader(file));
                 if (learn) {
-                    neuNtw.learning(style, v);
+                    neuNtw.learning(style, mapMonoLoader);
                 }
                 else {
-                    neuNtw.printPower(v);
+                    cout << CYAN << getFilenameFromFilePath(file) << ": " RESET;
+                    if (!neuNtw.getStyles(mapMonoLoader)) {
+                        cout << "none" << endl;
+                        break;
+                    }
                 }
             }
         }
