@@ -8,7 +8,7 @@ void replace(string &source, string const &find, string const &replace)
     }
 }
 
-void split(string const &source, string const &delimiter, vector<string> &out)
+void split(string const &source, string const &delimiter, vector <string> &out)
 {
     string::size_type last_pos = 0, i = 0;
     while ((i = source.find(delimiter, i)) != string::npos) {
@@ -17,9 +17,9 @@ void split(string const &source, string const &delimiter, vector<string> &out)
     out.push_back(source.substr(last_pos, source.length() - last_pos));
 }
 
-vector<string> getRegexMask(string &&strMask)
+vector <string> getRegexMask(string &&strMask)
 {
-    vector<string> regexMasks;
+    vector <string> regexMasks;
     if (!strMask.empty()) {
         replace(strMask, ".", "\\.");
         replace(strMask, "?", ".?");
@@ -29,7 +29,7 @@ vector<string> getRegexMask(string &&strMask)
     return regexMasks;
 }
 
-bool checkFileMask(const vector<string> &regexMask, const string &fileName)
+bool checkFileMask(const vector <string> &regexMask, const string &fileName)
 {
     for (const string &mask : regexMask) {
         regex reg(mask);
@@ -63,7 +63,8 @@ bool createDirectory(const string &directory)
     return (mkdir(directory.c_str(), 0733) == 0);
 }
 
-void getFileList(const string &directory, vector<string> &fileList, const vector<string> &regexMask, bool bSearchSubDir)
+void
+getFileList(const string &directory, vector <string> &fileList, const vector <string> &regexMask, bool bSearchSubDir)
 {
     DIR *WorkDir = opendir(directory.c_str());
     if (WorkDir == nullptr) {
